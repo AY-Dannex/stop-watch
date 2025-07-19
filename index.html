@@ -40,12 +40,18 @@
             display: flex;
             width: 90%;
             justify-content: space-between;
+            align-self: center;
         }
 
         .overall div p{
             font-size: 40px;
             text-align: center;
             margin: 10px 0;
+        }
+
+        .overall div p:last-child{
+            font-size: 25px;
+            margin-top: 23px;
         }
 
         .overall .buttons{
@@ -63,6 +69,7 @@
             color: aliceblue;
             margin: 0 5px;
             cursor: pointer;
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -75,13 +82,12 @@
             <p class="min">00</p>
             <p>:</p>
             <p class="sc">00</p>
-            <p>:</p>
+            <!-- <p>:</p> -->
             <p class="ss">00</p>
 
         </div>
         <div class="buttons">
             <button class="start">Start</button>
-            <button class="stop">Stop</button>
             <button class="reset">Reset</button>
         </div>
     </div>
@@ -93,78 +99,80 @@
         const milliSecond = document.querySelector(".ss")
 
         const start = document.querySelector(".start")
-        const stopp = document.querySelector(".stop")
         const reset = document.querySelector(".reset")
 
-        let ID;
+        let milliSecondCount = 0;
+        let secondCount = 0
+        let minuteCount = 0
+        let hourCount = 0
 
         function resetTimer(){
             hour.textContent = "00"
             minute.textContent = "00"
             second.textContent = "00"
             milliSecond.textContent = "00"
+
+            milliSecondCount = 0;
+            secondCount = 0
+            minuteCount = 0
+            hourCount = 0
         }
 
+        
+        let ID;
         function startCount(userInput){
-            let milliSecondCount = 0;
-            let secondCount = 0
-            let minuteCount = 0
-            let hourCount = 0
             if(userInput === start){
-                resetTimer()
-                ID = setInterval(() => {
-                    milliSecondCount ++
-                    milliSecond.textContent = milliSecondCount
-                    if (milliSecondCount < 10){
-                        milliSecond.textContent = "0" + milliSecondCount
-                    }
-
-                    if(milliSecondCount >= 99){
-                        milliSecondCount = 0
-                        secondCount++
-                        second.textContent = secondCount
-                        if (secondCount < 10){
-                            second.textContent = "0" + secondCount
+                if(start.textContent === "Start"){
+                    start.textContent = "Stop"
+                    ID = setInterval(() => {
+                        milliSecondCount ++
+                        milliSecond.textContent = milliSecondCount
+                        if (milliSecondCount < 10){
+                            milliSecond.textContent = "0" + milliSecondCount
                         }
-                    }
-                    if(secondCount >= 60){
-                        secondCount = 0
-                        minuteCount++
-                        minute.textContent = minuteCount
-                        if (minuteCount < 10){
-                            minute.textContent = "0" + minuteCount
+    
+                        if(milliSecondCount >= 99){
+                            milliSecondCount = 0
+                            secondCount++
+                            second.textContent = secondCount
+                            if (secondCount < 10){
+                                second.textContent = "0" + secondCount
+                            }
                         }
-                    }
-                    if(minuteCount >= 60){
-                        minuteCount = 0
-                        hourCount++
-                        hour.textContent = hourCount
-                        if (hourCount < 10){
-                            hour.textContent = "0" + hourCount
+                        if(secondCount >= 60){
+                            secondCount = 0
+                            minuteCount++
+                            minute.textContent = minuteCount
+                            if (minuteCount < 10){
+                                minute.textContent = "0" + minuteCount
+                            }
                         }
-                    }
-                }, 10)
-            }else if(userInput === stopp){
-                clearInterval(ID)
+                        if(minuteCount >= 60){
+                            minuteCount = 0
+                            hourCount++
+                            hour.textContent = hourCount
+                            if (hourCount < 10){
+                                hour.textContent = "0" + hourCount
+                            }
+                        }
+                    }, 10)
+                }else{
+                    start.textContent = "Start"
+                    clearInterval(ID)
+                }
             }else{
                 clearInterval(ID)
                 resetTimer()
+                start.textContent = "Start"
             }
         }
 
         start.addEventListener("click", () => {
             startCount(start)
-            start.disabled = true
-        })
-        
-        stopp.addEventListener("click", () => {
-            startCount(stopp)
-            start.disabled = false
         })
 
         reset.addEventListener("click", () => {
             startCount(reset)
-            start.disabled = false
         })
     </script>
 </body>
