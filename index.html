@@ -98,12 +98,20 @@
 
         let ID;
 
+        function resetTimer(){
+            hour.textContent = "00"
+            minute.textContent = "00"
+            second.textContent = "00"
+            milliSecond.textContent = "00"
+        }
+
         function startCount(userInput){
             let milliSecondCount = 0;
             let secondCount = 0
             let minuteCount = 0
             let hourCount = 0
             if(userInput === start){
+                resetTimer()
                 ID = setInterval(() => {
                     milliSecondCount ++
                     milliSecond.textContent = milliSecondCount
@@ -140,10 +148,7 @@
                 clearInterval(ID)
             }else{
                 clearInterval(ID)
-                hour.textContent = "00"
-                minute.textContent = "00"
-                second.textContent = "00"
-                milliSecond.textContent = "00"
+                resetTimer()
             }
         }
 
